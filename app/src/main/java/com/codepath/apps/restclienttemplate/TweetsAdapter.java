@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.models.Entities;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,12 +60,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView timeAgo;
+        ImageView mediaImage;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             timeAgo = itemView.findViewById(R.id.timeAgo);
+            mediaImage = itemView.findViewById(R.id.mediaImage);
 
         }
         public void bind(Tweet tweet){
@@ -72,6 +75,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             timeAgo.setText(tweet.createdAt);
+
+
+            if(tweet.entities.isEmpty()){
+                mediaImage.setVisibility(View.GONE);
+            }else{
+                mediaImage.setVisibility(View.VISIBLE);
+                Glide.with(context).load(tweet.entities.getMedia(0)).into(mediaImage);
+
+
+            }
+
+
 
         }
     }
