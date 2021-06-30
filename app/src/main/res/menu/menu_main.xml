@@ -3,11 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+
     <item
         android:id="@+id/compose"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/vector_compose_fab"
+        android:iconTint="@color/white"
         android:title="Compose"
         app:showAsAction="always" />
+
 
     <item
         android:id="@+id/logout"
