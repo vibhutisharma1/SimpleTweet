@@ -15,6 +15,9 @@
         -->
         <item name="android:actionBarTheme">@color/twitter_blue</item>
         <item name="colorPrimary">@color/twitter_blue</item>
+        <item name= "colorPrimaryDark">#ff1370a9</item>
+        <item name= "colorOnBackground">#F5F8FA</item>
+
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>

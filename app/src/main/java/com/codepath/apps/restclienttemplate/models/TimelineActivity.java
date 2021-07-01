@@ -37,7 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    ClipData.Item logout;
+    private EndlessRecyclerViewScrollListener scrollListener;
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
     private SwipeRefreshLayout swipeContainer;
@@ -76,8 +76,45 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
 
-        populateHomeTimeline();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadNextDataFromApi(totalItemsCount);
 
+            }
+        };
+
+        populateHomeTimeline();
+        rvTweets.addOnScrollListener(scrollListener);
+
+
+    }
+
+    public void loadNextDataFromApi(int offset) {
+        client.getNextPage(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONArray jsonArray = json.jsonArray;
+                Log.i(TAG, "onSuccess" + json.toString());
+                List<Tweet> tweets = new ArrayList<>();
+                try {
+                    tweets = Tweet.fromJsonArray(jsonArray);
+                    adapter.addAll(tweets);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure" + response, throwable);
+
+            }
+        }, tweets.get(offset - 1).id);
 
     }
 

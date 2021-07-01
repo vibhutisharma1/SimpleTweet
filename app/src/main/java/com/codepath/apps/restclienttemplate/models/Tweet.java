@@ -21,6 +21,7 @@ public class Tweet {
     public User user;
     public String time;
     public Entities entities;
+    public long id;
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -35,6 +36,7 @@ public class Tweet {
         tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.entities = Entities.fromJsonArray(jsonObject.getJSONObject("entities"));
+        tweet.id = jsonObject.getLong("id");
         return tweet;
 
     }
