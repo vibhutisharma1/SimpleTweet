@@ -87,7 +87,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void bind(final Tweet tweet){
             tvBody.setText(tweet.body);
             tvBody.append(tweet.hashtag);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText("@" + tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             timeAgo.setText(tweet.createdAt);
 
@@ -110,6 +110,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     ((Activity) context).startActivityForResult(intent, TimelineActivity.REQUEST_COMPOSE);
                 }
             });
+
 
         }
     }
