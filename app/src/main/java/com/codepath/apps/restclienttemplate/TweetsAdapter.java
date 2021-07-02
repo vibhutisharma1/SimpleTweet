@@ -70,6 +70,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView retweetCount;
         TextView likeCount;
         ImageButton btReply;
+        TextView name;
         //TextView hashtags;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -82,6 +83,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             likeCount = itemView.findViewById(R.id.likeCount);
            // hashtags = itemView.findViewById(R.id.hashtag);
             btReply = itemView.findViewById(R.id.replyBtn);
+            name = itemView.findViewById(R.id.choiceName);
 
         }
         public void bind(final Tweet tweet){
@@ -90,6 +92,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText("@" + tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             timeAgo.setText(tweet.createdAt);
+            name.setText(tweet.user.name);
 
 
             if(tweet.entities.isEmpty()){

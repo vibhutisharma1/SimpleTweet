@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:state_pressed="true"
+    <item
+        android:state_pressed="true"
+        android:state_enabled="true"
         android:drawable="@drawable/ic_vector_heart" /> <!-- pressed -->
-    <item android:state_focused="true"
-        android:drawable="@drawable/ic_vector_heart" /> <!-- focused -->
-    <item android:drawable="@drawable/ic_vector_heart_stroke" /> <!-- default -->
+    <item
+        android:state_focused="true"
+        android:state_enabled="true"
+        android:drawable="@drawable/ic_vector_heart" />
+    <!-- focused -->
+    <item
+        android:state_enabled="true"
+        android:drawable="@drawable/ic_vector_heart_stroke" /> <!-- default -->
 </selector>
