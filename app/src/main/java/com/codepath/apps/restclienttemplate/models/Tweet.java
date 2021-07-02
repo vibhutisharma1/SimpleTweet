@@ -22,6 +22,9 @@ public class Tweet {
     public String time;
     public Entities entities;
     public long id;
+    public String hashtag;
+    public int retweet;
+    public int likes;
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -37,6 +40,13 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.entities = Entities.fromJsonArray(jsonObject.getJSONObject("entities"));
         tweet.id = jsonObject.getLong("id");
+        tweet.likes = jsonObject.isNull("favorite_count")? 0 : Integer.parseInt(jsonObject.getString("favorite_count"));
+        tweet.retweet = Integer.parseInt(jsonObject.getString("retweet_count"));
+       if(!jsonObject.getJSONObject("entities").getJSONArray("hashtags").isNull(0)){
+           tweet.hashtag = jsonObject.getJSONObject("entities").getJSONArray("hashtags").getJSONObject(0).getString("text");
+       }else{
+           tweet.hashtag = "";
+       }
         return tweet;
 
     }

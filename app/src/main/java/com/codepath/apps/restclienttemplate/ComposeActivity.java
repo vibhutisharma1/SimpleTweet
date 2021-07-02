@@ -29,6 +29,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     Button btnTweet;
     TwitterClient client;
+    String screenName;
     public static final int MAX_TWEET_LENGTH = 140;
     public static final String TAG = "ComposeActivity";
 
@@ -37,9 +38,15 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        screenName = getIntent().getStringExtra("refrencing");
+
         client = TwitterApp.getRestClient(this);
 
         etCompose = findViewById(R.id.etCompose);
+        if(screenName != null){
+            etCompose.setText("@" + screenName);
+        }
+
         btnTweet = findViewById(R.id.btnTweet);
         // etCompose.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_dark), PorterDuff.Mode.SRC_ATOP);
         //Set click listener on the button

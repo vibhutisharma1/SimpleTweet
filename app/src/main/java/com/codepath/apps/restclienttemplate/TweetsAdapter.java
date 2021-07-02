@@ -1,9 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Entities;
+import com.codepath.apps.restclienttemplate.models.TimelineActivity;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
@@ -61,6 +67,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView timeAgo;
         ImageView mediaImage;
+        TextView retweetCount;
+        TextView likeCount;
+        ImageButton btReply;
+        //TextView hashtags;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
@@ -68,10 +78,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             timeAgo = itemView.findViewById(R.id.timeAgo);
             mediaImage = itemView.findViewById(R.id.mediaImage);
+            retweetCount = itemView.findViewById(R.id.retweetCount);
+            likeCount = itemView.findViewById(R.id.likeCount);
+           // hashtags = itemView.findViewById(R.id.hashtag);
+            btReply = itemView.findViewById(R.id.replyBtn);
 
         }
-        public void bind(Tweet tweet){
+        public void bind(final Tweet tweet){
             tvBody.setText(tweet.body);
+            tvBody.append(tweet.hashtag);
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             timeAgo.setText(tweet.createdAt);
@@ -83,10 +98,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 mediaImage.setVisibility(View.VISIBLE);
                 Glide.with(context).load(tweet.entities.getMedia(0)).into(mediaImage);
 
-
             }
+            likeCount.setText(String.format(Locale.ENGLISH, "%d",tweet.likes));
+            retweetCount.setText(String.format(Locale.ENGLISH, "%d",tweet.retweet));
 
-
+            btReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("refrencing", tweet.user.screenName);
+                    ((Activity) context).startActivityForResult(intent, TimelineActivity.REQUEST_COMPOSE);
+                }
+            });
 
         }
     }

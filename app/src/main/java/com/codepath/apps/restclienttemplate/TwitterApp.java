@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
 
 import com.facebook.stetho.Stetho;
@@ -27,6 +28,8 @@ public class TwitterApp extends Application {
 		// fallbackToDestructiveMigration()
         myDatabase = Room.databaseBuilder(this, MyDatabase.class,
                 MyDatabase.NAME).fallbackToDestructiveMigration().build();
+        // Find the toolbar view inside the activity layout
+
 
         // use chrome://inspect to inspect your SQL database
         Stetho.initializeWithDefaults(this);
